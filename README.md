@@ -42,25 +42,25 @@ Architecture
 
 The monitoring bot runs continuously on a Linux host and performs several checks:
 
-Kubernetes checks
+*Kubernetes checks
 
-Node status
+*Node status
 
-Pod failures
+*Pod failures
 
-Cluster events
+*Cluster events
 
-Pod availability
+*Pod availability
 
-Linux system checks
+*Linux system checks
 
-CPU usage
+*CPU usage
 
-Memory usage
+*Memory usage
 
-Disk usage
+*Disk usage
 
-Docker status
+*Docker status
 
 When an issue is detected, the bot sends a Slack alert to notify operators.
 
@@ -106,17 +106,17 @@ System Info
 
 Technologies Used
 
-Python
+*Python
 
-Kubernetes
+*Kubernetes
 
-kubectl
+*kubectl
 
-Slack API
+*Slack API
 
-Linux
+*Linux
 
-systemd
+*systemd
 
 
 Future Improvements
@@ -125,21 +125,21 @@ This project is designed as an experimental monitoring tool and will evolve over
 
 Planned improvements include:
 
-More precise wording for cluster resource creation via Slack
+*More precise wording for cluster resource creation via Slack
 
-Remote administration through FastAPI or Claude Desktop with an MCP server
+*Remote administration through FastAPI or Claude Desktop with an MCP server
 
-RAG integration for troubleshooting and operational support
+*RAG integration for troubleshooting and operational support
 
-Prometheus metrics integration
+*Prometheus metrics integration
 
-Grafana alerting dashboards
+*Grafana alerting dashboards
 
-Replace kubectl calls with the Kubernetes Python client
+*Replace kubectl calls with the Kubernetes Python client
 
-Containerized deployment
+*Containerized deployment
 
-Helm chart deployment
+*Helm chart deployment
 
 
 Purpose of the Project
