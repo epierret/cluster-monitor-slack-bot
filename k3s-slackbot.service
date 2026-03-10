@@ -1,0 +1,18 @@
+[Unit]
+Description=Kubernetes Slack Monitoring Bot
+After=network.target
+
+[Service]
+User=monitor
+WorkingDirectory=/home/monitor/kubernetes-bot
+
+Environment=SLACK_APP_TOKEN="<your-slack-app-token>"
+Environment=SLACK_BOT_TOKEN="<your-slack-bot-token>"
+
+ExecStart=/home/monitor/venv/bin/python bot/k.py
+
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
