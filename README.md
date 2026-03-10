@@ -96,12 +96,17 @@ systemctl status k8s-slack-bot
 
 
 Screenshots
+
 Kubernetes Check
+
 <img width="517" height="117" alt="kubernetes-check" src="https://github.com/user-attachments/assets/d4b69daa-1820-4f23-9cf9-10bcf38a8720" />
 
 
 System Info
+
 <img width="435" height="332" alt="system-info" src="https://github.com/user-attachments/assets/d1b1767e-c925-438c-aca1-6bcb7192afb6" />
+
+
 
 
 Technologies Used
