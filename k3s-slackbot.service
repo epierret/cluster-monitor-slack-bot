@@ -5,7 +5,8 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-# Utilisateur dédié, sans droits root. Adapter si besoin.
+# Utilisateur dédié à créer avant : sudo useradd --system --create-home monitor
+# Sans droits root. Adapter User= et KUBECONFIG si tu changes de nom.
 User=monitor
 WorkingDirectory=/opt/cluster-monitor-slack-bot
 # Les tokens et les IDs sont dans ce fichier (root, chmod 600), jamais dans l'unité.

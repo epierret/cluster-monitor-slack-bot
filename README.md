@@ -146,6 +146,8 @@ sudo nano /etc/slack-monitor.env
 
 **En service systemd** : utilise un utilisateur dédié, sans droits root.
 
+> ⚠️ **Crée l'utilisateur `monitor` avant d'installer le service.** Il doit exister et posséder `/home/monitor/.kube/config`. Si tu choisis un autre nom, change `User=` et `KUBECONFIG` dans `k3s-slackbot.service`.
+
 ```bash
 sudo useradd --system --create-home monitor
 sudo mkdir -p /opt/cluster-monitor-slack-bot
