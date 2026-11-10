@@ -2,7 +2,8 @@ cluster-monitor-slack-bot
 ![CI](https://github.com/epierret/cluster-monitor-slack-bot/actions/workflows/ci.yml/badge.svg)
 ![Python](https://img.shields.io/badge/python-3.12-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
-Bot Slack de supervision DevOps. Il interroge ton cluster Kubernetes, tes conteneurs Docker et l'hôte Linux, exécute quelques actions protégées, et envoie des alertes dans un canal.
+Bot Slack de supervision DevOps.
+Il interroge ton cluster Kubernetes, tes conteneurs Docker et l'hôte Linux, exécute quelques actions protégées, et envoie des alertes dans un canal.
 Il fonctionne en Socket Mode : la connexion est sortante, aucun port n'est exposé.
 Sommaire
 Fonctionnalités
@@ -20,6 +21,7 @@ Développement
 Feuille de route
 Licence
 ---
+
 Fonctionnalités
 Kubernetes : pods, nœuds, deployments, services, namespaces, logs et détail d'un pod
 Actions protégées : déployer, mettre à l'échelle, redémarrer, supprimer
@@ -29,6 +31,7 @@ Réseau : ping et test d'ouverture de port
 Alertes : nœuds non prêts, pods en échec ou en `CrashLoopBackOff`, seuils CPU, RAM et disque, avec cooldown anti-spam
 Sécurité : liste blanche d'utilisateurs Slack, validation des entrées, erreurs génériques
 ---
+
 Architecture
 ```mermaid
 flowchart LR
@@ -71,6 +74,8 @@ cd cluster-monitor-slack-bot
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 ```
+
+
 ---
 Créer l'app Slack
 Sur api.slack.com/apps, crée une app From scratch dans ton workspace.
