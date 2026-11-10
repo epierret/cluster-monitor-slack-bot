@@ -1,0 +1,19 @@
+# Environnements virtuels
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Secrets et fichiers locaux
+.env
+*.env
+!.env.example
+*.bak
+
+# Outils
+.ruff_cache/
+.pytest_cache/
+.vscode/
+.idea/

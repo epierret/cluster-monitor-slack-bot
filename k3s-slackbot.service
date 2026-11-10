@@ -1,18 +1,22 @@
 [Unit]
 Description=Kubernetes Slack Monitoring Bot
-After=network.target
+After=network-online.target
+Wants=network-online.target
 
 [Service]
+Type=simple
+# Utilisateur dédié à créer avant : sudo useradd --system --create-home monitor
+# Sans droits root. Adapter User= et KUBECONFIG si tu changes de nom.
 User=monitor
-WorkingDirectory=/home/monitor/kubernetes-bot
-
-Environment=SLACK_APP_TOKEN="<your-slack-app-token>"
-Environment=SLACK_BOT_TOKEN="<your-slack-bot-token>"
-
-ExecStart=/home/monitor/venv/bin/python bot/k.py
-
-Restart=always
-RestartSec=5
+WorkingDirectory=/opt/cluster-monitor-slack-bot
+# Les tokens et les IDs sont dans ce fichier (root, chmod 600), jamais dans l'unité.
+EnvironmentFile=/etc/slack-monitor.env
+Environment=KUBECONFIG=/home/monitor/.kube/config
+ExecStart=/opt/cluster-monitor-slack-bot/.venv/bin/python slack-monitor.py
+Restart=on-failure
+RestartSec=10
+NoNewPrivileges=true
+PrivateTmp=true
 
 [Install]
 WantedBy=multi-user.target
