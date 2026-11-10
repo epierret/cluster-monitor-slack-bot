@@ -2,26 +2,8 @@ cluster-monitor-slack-bot
 ![CI](https://github.com/epierret/cluster-monitor-slack-bot/actions/workflows/ci.yml/badge.svg)
 ![Python](https://img.shields.io/badge/python-3.12-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
-Bot Slack de supervision DevOps.
-Il interroge ton cluster Kubernetes, tes conteneurs Docker et l'hôte Linux, exécute quelques actions protégées, et envoie des alertes dans un canal.
+Bot Slack de supervision DevOps. Il interroge ton cluster Kubernetes, tes conteneurs Docker et l'hôte Linux, exécute quelques actions protégées, et envoie des alertes dans un canal.
 Il fonctionne en Socket Mode : la connexion est sortante, aucun port n'est exposé.
-Sommaire
-Fonctionnalités
-Architecture
-Prérequis
-Installation
-Créer l'app Slack
-Configuration
-Lancer le bot
-Commandes
-Alertes
-Sécurité
-Dépannage
-Développement
-Feuille de route
-Licence
----
-
 Fonctionnalités
 Kubernetes : pods, nœuds, deployments, services, namespaces, logs et détail d'un pod
 Actions protégées : déployer, mettre à l'échelle, redémarrer, supprimer
@@ -30,8 +12,6 @@ Hôte : CPU, RAM, disques, processus, interfaces, ports en écoute, services sys
 Réseau : ping et test d'ouverture de port
 Alertes : nœuds non prêts, pods en échec ou en `CrashLoopBackOff`, seuils CPU, RAM et disque, avec cooldown anti-spam
 Sécurité : liste blanche d'utilisateurs Slack, validation des entrées, erreurs génériques
----
-
 Architecture
 ```mermaid
 flowchart LR
@@ -60,13 +40,11 @@ flowchart LR
 ```
 Le bot ouvre lui-même la connexion vers Slack : aucun port entrant n'est nécessaire.
 Les contrôles de l'hôte mesurent la machine sur laquelle tourne le service.
----
 Prérequis
 Python 3.12
 Un kubeconfig fonctionnel pour l'utilisateur qui lance le bot : `kubectl get nodes` doit répondre
 Docker, optionnel : accès à `/var/run/docker.sock`
 Une app Slack installable dans ton workspace
----
 Installation
 ```bash
 git clone https://github.com/epierret/cluster-monitor-slack-bot.git
@@ -74,9 +52,6 @@ cd cluster-monitor-slack-bot
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 ```
-
-
----
 Créer l'app Slack
 Sur api.slack.com/apps, crée une app From scratch dans ton workspace.
 OAuth & Permissions → Bot Token Scopes : ajoute `chat:write` et `channels:history`.
@@ -85,7 +60,6 @@ Basic Information → App-Level Tokens : génère un token avec le scope `connec
 Event Subscriptions : active-les et ajoute l'événement bot `message.channels`.
 OAuth & Permissions → Install to Workspace. Copie le Bot User OAuth Token : c'est ta `SLACK_BOT_TOKEN` (`xoxb-…`).
 Dans le canal d'alertes : Intégrations → Ajouter des applis → ton bot.
----
 Configuration
 Toute la configuration passe par des variables d'environnement.
 Variable	Obligatoire	Défaut	Rôle
@@ -107,7 +81,6 @@ sudo chown root:root /etc/slack-monitor.env
 sudo chmod 600 /etc/slack-monitor.env
 sudo nano /etc/slack-monitor.env
 ```
----
 Lancer le bot
 Test rapide : exporte les variables dans ton shell, puis lance le script.
 ```bash
@@ -128,41 +101,39 @@ sudo systemctl enable --now k3s-slackbot
 journalctl -u k3s-slackbot -f
 ```
 Tu dois voir `Bot démarré` puis `Surveillance active toutes les 60 s`.
----
 Commandes
 Tape `help` dans le canal pour afficher la liste complète.
 ![Aide des commandes dans Slack](docs/slack-help.png)
 Les commandes marquées 🔒 sont réservées aux IDs de `ALLOWED_SLACK_USERS`.
-Commande	Description	Accès
-`help`	Affiche l'aide	Tous
-`namespaces`	Liste des namespaces	Tous
-`pods [namespace|all]`	Pods d'un namespace, ou de tous	Tous
-`nodes`	Nœuds et leur état `Ready`	Tous
-`deployments [namespace|all]`	Deployments et nombre de réplicas	Tous
-`services`	Services du namespace par défaut	Tous
-`logs <pod> [namespace]`	50 dernières lignes de logs	🔒 liste blanche
-`describe <pod> [namespace]`	Détail d'un pod	🔒 liste blanche
-`deploy <nom> <image>`	Crée un deployment à 1 réplica	🔒 liste blanche
-`scale <deployment> <n>`	Met à l'échelle (50 réplicas max)	🔒 liste blanche
-`restart <deployment>`	Rollout restart	🔒 liste blanche
-`delete pod|deployment <nom>`	Supprime une ressource	🔒 liste blanche
-`containers [all]`	Conteneurs Docker (tous avec `all`)	Tous
-`images`	Images Docker locales	Tous
-`dlogs <conteneur>`	Logs d'un conteneur Docker	🔒 liste blanche
-`dstats <conteneur>`	CPU et mémoire d'un conteneur	Tous
-`docker info`	Informations du daemon Docker	Tous
-`cpu`	CPU, RAM, disque `/`, uptime	Tous
-`disks`	Partitions montées	Tous
-`top`	10 processus les plus gourmands	Tous
-`vminfo`	Hostname, OS, noyau	Tous
-`svcstatus`	Services systemd actifs	Tous
-`ports`	Ports TCP en écoute	Tous
-`interfaces`	Interfaces réseau et trafic	Tous
-`ping <hôte>`	Test de connectivité	Tous
-`portscan <hôte> <port>`	Port ouvert ou fermé	🔒 liste blanche
+Commande	Description	
+`help`	Affiche l'aide	
+`namespaces`	Liste des namespaces	
+`pods [namespace|all]`	Pods d'un namespace, ou de tous	
+`nodes`	Nœuds et leur état `Ready`	
+`deployments [namespace|all]`	Deployments et nombre de réplicas	
+`services`	Services du namespace par défaut	
+`logs <pod> [namespace]`	50 dernières lignes de logs	🔒
+`describe <pod> [namespace]`	Détail d'un pod	🔒
+`deploy <nom> <image>`	Crée un deployment à 1 réplica	🔒
+`scale <deployment> <n>`	Met à l'échelle (50 réplicas max)	🔒
+`restart <deployment>`	Rollout restart	🔒
+`delete pod|deployment <nom>`	Supprime une ressource	🔒
+`containers [all]`	Conteneurs Docker (tous avec `all`)	
+`images`	Images Docker locales	
+`dlogs <conteneur>`	Logs d'un conteneur Docker	🔒
+`dstats <conteneur>`	CPU et mémoire d'un conteneur	
+`docker info`	Informations du daemon Docker	
+`cpu`	CPU, RAM, disque `/`, uptime	
+`disks`	Partitions montées	
+`top`	10 processus les plus gourmands	
+`vminfo`	Hostname, OS, noyau	
+`svcstatus`	Services systemd actifs	
+`ports`	Ports TCP en écoute	
+`interfaces`	Interfaces réseau et trafic	
+`ping <hôte>`	Test de connectivité	
+`portscan <hôte> <port>`	Port ouvert ou fermé	🔒
 Exemple de sortie avec `pods` et `nodes` :
 ![Pods et nœuds dans Slack](docs/slack-pods-nodes.png)
----
 Alertes
 Le monitor contrôle les nœuds, les pods et l'hôte toutes les `MONITOR_INTERVAL` secondes. Il envoie une alerte dans `ALERT_CHANNEL` quand :
 un nœud n'est pas `Ready` ;
@@ -180,7 +151,6 @@ pkill -f 'while :; do :; done'
 ```
 Lance ces commandes uniquement sur la VM de test.
 ![Alertes CPU dans le canal](docs/slack-alerte-cpu.png)
----
 Sécurité
 Liste blanche : seuls les IDs de `ALLOWED_SLACK_USERS` exécutent les commandes 🔒. Une liste vide bloque toutes ces commandes.
 Entrées validées : noms Kubernetes (DNS-1123), hôtes, images et ports sont vérifiés par expression régulière avant tout appel.
@@ -190,7 +160,6 @@ Secrets hors du code : les tokens sont dans `/etc/slack-monitor.env` (root, 600)
 Moindre privilège : utilise un kubeconfig dédié, avec un Role limité aux namespaces et aux verbes nécessaires. Évite `cluster-admin`.
 Docker équivaut à root : l'accès à `docker.sock` donne les droits root. N'ajoute `monitor` au groupe `docker` que si tu utilises les commandes Docker.
 Logs visibles : `logs` et `dlogs` publient le contenu dans Slack, lisible par tout le canal. Évite-les sur des pods qui manipulent des secrets.
----
 Dépannage
 Symptôme	Cause probable	Solution
 `Variable d'environnement manquante`	Le fichier d'environnement n'est pas lu	Vérifie `EnvironmentFile=` et les droits du fichier
@@ -200,7 +169,6 @@ Symptôme	Cause probable	Solution
 `Non autorisé`	Ton ID n'est pas dans la liste	Ajoute-le à `ALLOWED_SLACK_USERS`
 `Start request repeated too quickly`	Limite de redémarrage atteinte	`sudo systemctl reset-failed k3s-slackbot`
 Aucune réponse en message privé	L'onglet Messages de l'app est désactivé	Utilise le canal
----
 Développement
 ```bash
 pip install ruff
@@ -208,12 +176,10 @@ ruff check .
 python -m py_compile slack-monitor.py
 ```
 La CI exécute ces contrôles à chaque push et pull request.
----
 Feuille de route
 [ ] Tests unitaires des validateurs et du contrôle d'accès
 [ ] Manifest Slack prêt à importer
 [ ] Manifest RBAC (ServiceAccount et Role à moindre privilège)
 [ ] Métriques Prometheus
----
 Licence
 MIT. Voir LICENSE.
