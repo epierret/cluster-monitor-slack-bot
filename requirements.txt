@@ -1,4 +1,4 @@
 slack-bolt>=1.18,<2
-kubernetes>=29
+kubernetes>=37.0.2
 docker>=7
 psutil>=5.9
